@@ -8,6 +8,9 @@
     
     <script>
 
+    var canvas;
+    var canvascontext;
+
     var paddlethickness = 5;
     var paddlelength = 100;
     var paddle1position = gamescreen.height/2 - paddlelength/2;
@@ -28,8 +31,8 @@
     window.onload = function() {
         console.log("Preparing Canvas...");
 
-        var canvas = document.getElementById("gamescreen");
-        var canvascontext = canvas.getContext("2d");
+        canvas = document.getElementById("gamescreen");
+        canvascontext = canvas.getContext("2d");
 
         var fps = 30;
         setInterval(function() {
@@ -42,7 +45,7 @@
         });
     } 
 
-    function reset() {
+    function resetscreen() {
         console.log("Screen Reset");
 
         ballxpos = canvas.width/2;
@@ -72,7 +75,7 @@
             }
             else {
                 score2++;
-                reset();
+                resetscreen();
             }
         }
         
@@ -85,10 +88,11 @@
             }
             else {
                 score1++;
-                reset();
+                resetscreen();
             }
         }
 
+        //move ai paddle
         if(ballypos > paddle2position + paddlelength/2) {
             paddle2position += aispeed;
         }
@@ -97,9 +101,16 @@
         }
     }
 
+    //colors and draws rectangles
+    function colorRect(x, y, width, height, color) {
+        canvascontext.fillStyle = color;
+        canvascontext.fillRect(x, y, width, height)
+    }
+
     function updatescreen() {
-        canvascontext.fillStyle = "black";
-        canvascontext.fillRect(0, 0, canvas.width, canvas.height);
+        colorRect(0, 0, canvas.width, canvas.height, "black"); //gamescreen
+        colorRect(canvas.width/2, 0, 1, canvas.height, "white");
+        colorRect(0, paddle1position, paddlethickness, paddlelength); //player paddle
         canvascontext.fillStyle = "white";
         canvascontext.fillRect(canvas.width/2, 0, 1, canvas.height);
         canvascontext.fillRect(0, paddle1position, paddlethickness, paddlelength);
