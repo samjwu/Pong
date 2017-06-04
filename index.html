@@ -1,89 +1,114 @@
+<html>
+
 <canvas id="gamescreen" width="640" height="480"></canvas>
 
-<script>
-paddlethickness = 5;
-paddlelength = 100;
-paddle1position = paddle2position = gamescreen.height/2 - paddlelength/2;
+<head></head>
 
-balldimensions = 5;
-ballxpos = gamescreen.width/2
-ballypos = gamescreen.height/2;
-ballxvelocity = ballyvelocity = 5;
-
-score1 = score2 = 0;
-aispeed = 2;
-bouncespeed = 0.3;
-
-
-window.onload = function() {
-    canvas = document.getElementById("gamescreen");
-    canvascontext = canvas.getContext("2d");
-    setInterval(update,1000/30);
-    canvas.addEventListener("mousemove", function(e) {
-        paddle1position = e.clientY - paddlelength/2;
-    });
-} 
-
-function reset() {
-    ballxpos = canvas.width/2;
-    ballypos = canvas.height/2;
-    ballxvelocity = 5;
-    ballyvelocity = 5;
-}
-
-function update() {
-    ballxpos += ballxvelocity;
-    ballypos += ballyvelocity;
-
-    //bounce ball off walls
-    if(ballypos < 0 && ballyvelocity < 0) {
-        ballyvelocity = -ballyvelocity;
-    }
-    if(ballypos > canvas.height && ballyvelocity > 0) {
-        ballyvelocity = -ballyvelocity;
-    }
-
-    //bounce ball off Player 1 paddle or score
-    if(ballxpos < 0) {
-        if(ballypos > paddle1position && ballypos < (paddle1position + paddlelength)) {
-            ballxvelocity = -(bouncespeed + ballxvelocity);
-            dy = ballypos - (paddle1position + paddlelength/2);
-            ballyvelocity = bouncespeed * dy
-        }
-        else {
-            score2++;
-            reset();
-        }
-    }
+<body>
     
-    //bounce ball off Player 2 paddle or score
-    if(ballxpos > canvas.width) {
-        if(ballypos>paddle2position && ballypos < (paddle2position + paddlelength)) {
-            ballxvelocity = -(bouncespeed + ballxvelocity);
-            dy = ballypos - (paddle2position + paddlelength/2);
-            ballyvelocity = bouncespeed * dy
+    <script>
+
+    var paddlethickness = 5;
+    var paddlelength = 100;
+    var paddle1position = gamescreen.height/2 - paddlelength/2;
+    var paddle2position = gamescreen.height/2 - paddlelength/2;
+    var aispeed = 2;
+
+    var balldimensions = 5;
+    var ballxpos = gamescreen.width/2
+    var ballypos = gamescreen.height/2;
+    var ballxvelocity = 5;
+    var ballyvelocity = 5;
+    var bouncespeed = 0.3;
+
+    var score1 = 0;
+    var score2 = 0;
+
+
+    window.onload = function() {
+        console.log("Preparing Canvas...");
+
+        var canvas = document.getElementById("gamescreen");
+        var canvascontext = canvas.getContext("2d");
+
+        var fps = 30;
+        setInterval(function() {
+            updatescreen();
+            rungame();
+        }, 1000/fps);
+
+        canvas.addEventListener("mousemove", function(e) {
+            paddle1position = e.clientY - paddlelength/2;
+        });
+    } 
+
+    function reset() {
+        console.log("Screen Reset");
+
+        ballxpos = canvas.width/2;
+        ballypos = canvas.height/2;
+        ballxvelocity = 5;
+        ballyvelocity = 5;
+    }
+
+    function rungame() {
+        ballxpos += ballxvelocity;
+        ballypos += ballyvelocity;
+
+        //bounce ball off walls
+        if(ballypos < 0 && ballyvelocity < 0) {
+            ballyvelocity = -ballyvelocity;
+        }
+        if(ballypos > canvas.height && ballyvelocity > 0) {
+            ballyvelocity = -ballyvelocity;
+        }
+
+        //bounce ball off Player 1 paddle or score
+        if(ballxpos < 0) {
+            if(ballypos > paddle1position && ballypos < (paddle1position + paddlelength)) {
+                ballxvelocity = -(bouncespeed + ballxvelocity);
+                dy = ballypos - (paddle1position + paddlelength/2);
+                ballyvelocity = bouncespeed * dy
+            }
+            else {
+                score2++;
+                reset();
+            }
+        }
+        
+        //bounce ball off Player 2 paddle or score
+        if(ballxpos > canvas.width) {
+            if(ballypos>paddle2position && ballypos < (paddle2position + paddlelength)) {
+                ballxvelocity = -(bouncespeed + ballxvelocity);
+                dy = ballypos - (paddle2position + paddlelength/2);
+                ballyvelocity = bouncespeed * dy
+            }
+            else {
+                score1++;
+                reset();
+            }
+        }
+
+        if(ballypos > paddle2position + paddlelength/2) {
+            paddle2position += aispeed;
         }
         else {
-            score1++;
-            reset();
+            paddle2position -= aispeed;
         }
     }
 
-    if(ballypos > paddle2position + paddlelength/2) {
-        paddle2position += aispeed;
-    }
-    else {
-        paddle2position -= aispeed;
+    function updatescreen() {
+        canvascontext.fillStyle = "black";
+        canvascontext.fillRect(0, 0, canvas.width, canvas.height);
+        canvascontext.fillStyle = "white";
+        canvascontext.fillRect(canvas.width/2, 0, 1, canvas.height);
+        canvascontext.fillRect(0, paddle1position, paddlethickness, paddlelength);
+        canvascontext.fillRect(canvas.width - paddlethickness, paddle2position, paddlethickness, paddlelength);
+        canvascontext.fillRect(ballxpos - balldimensions/2, ballypos - balldimensions/2, balldimensions, balldimensions);
+        canvascontext.fillText(score1, canvas.width/4, 50);
+        canvascontext.fillText(score2, canvas.width - canvas.width/4, 50);
     }
 
-    canvascontext.fillStyle = "black";
-    canvascontext.fillRect(0, 0, canvas.width, canvas.height);
-    canvascontext.fillStyle = "white";
-    canvascontext.fillRect(canvas.width/2, 0, 1, canvas.height);
-    canvascontext.fillRect(0, paddle1position, paddlethickness, paddlelength);
-    canvascontext.fillRect(canvas.width - paddlethickness, paddle2position, paddlethickness, paddlelength);
-    canvascontext.fillRect(ballxpos - balldimensions/2, ballypos - balldimensions/2, balldimensions, balldimensions);
-    canvascontext.fillText(score1, canvas.width/4, 50);
-    canvascontext.fillText(score2, canvas.width - canvas.width/4, 50);
-}
-</script>
+    </script>
+
+</body>
