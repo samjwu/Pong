@@ -112,12 +112,38 @@
         colorRect(canvas.width/2, 0, 1, canvas.height, "white"); //dividing line in middle
         colorRect(0, paddle1position, paddlethickness, paddlelength, "white"); //player paddle
         colorRect(canvas.width - paddlethickness, paddle2position, paddlethickness, paddlelength, "white"); //computer paddle
-        colorRect(ballxpos - balldimensions/2, ballypos - balldimensions/2, balldimensions, balldimensions, "white"); //ball
-        
+
         canvascontext.fillStyle = "white";
+
         canvascontext.fillText(score1, canvas.width/4, 50);
         canvascontext.fillText(score2, canvas.width - canvas.width/4, 50);
+
+        //draw ball
+        canvascontext.fillStyle = "white";
+        canvascontext.beginPath();
+        canvascontext.arc(ballxpos - balldimensions/2, ballypos - balldimensions/2, balldimensions, 0, Math.PI * 2, true);
+        canvascontext.fill();
+
+        
     }
+
+    // function updatescreen() {
+    //     colorRect(0, 0, canvas.width, canvas.height, "black"); //gamescreen
+    //     colorRect(canvas.width/2, 0, 1, canvas.height, "white"); //dividing line in middle
+    //     colorRect(0, paddle1position, paddlethickness, paddlelength, "white"); //player paddle
+    //     colorRect(canvas.width - paddlethickness, paddle2position, paddlethickness, paddlelength, "white"); //computer paddle
+    //     // colorRect(ballxpos - balldimensions/2, ballypos - balldimensions/2, balldimensions, balldimensions, "white"); //ball
+
+    //     //draw ball
+    //     canvascontext.fillStyle = "white";
+    //     canvascontext.beginPath();
+    //     canvascontext.arc(ballxpos - balldimensions/2, ballypos - balldimensions/2, balldimensions, 0, Math.PI * 2, true);
+    //     canvascontext.fill();
+
+    //     canvascontext.fillStyle = "white";
+    //     canvascontext.fillText(score1, canvas.width/4, 50);
+    //     canvascontext.fillText(score2, canvas.width - canvas.width/4, 50);
+    // }
 
     </script>
 
