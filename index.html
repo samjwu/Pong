@@ -2,7 +2,17 @@
 
 <canvas id="gamescreen" width="640" height="480"></canvas>
 
-<head></head>
+<head>
+    
+    <title>Pong</title>
+
+    <meta charset="UTF-8">
+    <meta name="description" content="Pong Game">
+    <meta name="keywords" content="HTML, JavaScript, Pong">
+    <meta name="author" content="Sam Wu">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+</head>
 
 <body>
     
@@ -40,11 +50,13 @@
             rungame();
         }, 1000/fps);
 
+        //move paddle using mouse
         canvas.addEventListener("mousemove", function(e) {
             paddle1position = e.clientY - paddlelength/2;
         });
     } 
 
+    //called after each point scored
     function resetscreen() {
         console.log("Screen Reset");
 
@@ -55,6 +67,7 @@
     }
 
     function rungame() {
+        //move ball
         ballxpos += ballxvelocity;
         ballypos += ballyvelocity;
 
@@ -121,30 +134,13 @@
         colorRect(0, paddle1position, paddlethickness, paddlelength, "white"); //player paddle
         colorRect(canvas.width - paddlethickness, paddle2position, paddlethickness, paddlelength, "white"); //computer paddle
 
-        colorCircle(ballxpos, ballypos, ballradius, "white");
+        colorCircle(ballxpos, ballypos, ballradius, "white"); //ball
 
+        //scores
         canvascontext.fillStyle = "white";
         canvascontext.fillText(score1, canvas.width/4, 50);
         canvascontext.fillText(score2, canvas.width - canvas.width/4, 50);
     }
-
-    // function updatescreen() {
-    //     colorRect(0, 0, canvas.width, canvas.height, "black"); //gamescreen
-    //     colorRect(canvas.width/2, 0, 1, canvas.height, "white"); //dividing line in middle
-    //     colorRect(0, paddle1position, paddlethickness, paddlelength, "white"); //player paddle
-    //     colorRect(canvas.width - paddlethickness, paddle2position, paddlethickness, paddlelength, "white"); //computer paddle
-    //     // colorRect(ballxpos - ballradius/2, ballypos - ballradius/2, ballradius, ballradius, "white"); //ball
-
-    //     //draw ball
-    //     canvascontext.fillStyle = "white";
-    //     canvascontext.beginPath();
-    //     canvascontext.arc(ballxpos - ballradius/2, ballypos - ballradius/2, ballradius, 0, Math.PI * 2, true);
-    //     canvascontext.fill();
-
-    //     canvascontext.fillStyle = "white";
-    //     canvascontext.fillText(score1, canvas.width/4, 50);
-    //     canvascontext.fillText(score2, canvas.width - canvas.width/4, 50);
-    // }
 
     </script>
 
