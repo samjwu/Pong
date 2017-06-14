@@ -37,6 +37,19 @@
     var score1 = 0;
     var score2 = 0;
 
+    //get mouse position from mouse movement event
+    function getmousepos(event) {
+        var gamescreen = canvas.getBoundingClientRect(); //black rectangle for game screen
+        //https://developer.mozilla.org/en/docs/Web/API/Document/documentElement
+        var root = document.documentElement; //document is html page
+        //account for position of black rectangle and mouse on html page (not just screen)
+        var mousex = event.clientX - gamescreen.left - root.scrollLeft;
+        var mousey = event.clientY - gamescreen.top - root.scrollTop;
+        return {
+            x:mousex,
+            y:mousey
+        };
+    }
 
     window.onload = function() {
         console.log("Preparing Canvas...");
@@ -51,9 +64,11 @@
         }, 1000/fps);
 
         //move paddle using mouse
-        canvas.addEventListener("mousemove", function(e) {
-            paddle1position = e.clientY - paddlelength/2;
-        });
+        canvas.addEventListener("mousemove",
+            function(event) {
+                var mousepos = getmousepos(event);
+                paddle1position = mousepos.y - paddlelength/2;
+            });
     } 
 
     //called after each point scored
@@ -115,13 +130,13 @@
     }
 
     //colors and draws rectangles
-    function colorRect(topleftx, toplefty, width, height, color) {
+    function colorrect(topleftx, toplefty, width, height, color) {
         canvascontext.fillStyle = color;
         canvascontext.fillRect(topleftx, toplefty, width, height)
     }
 
     //colors and draws circles
-    function colorCircle(centerx, centery, radius, color) {
+    function colorcircle(centerx, centery, radius, color) {
         canvascontext.fillStyle = color;
         canvascontext.beginPath();
         canvascontext.arc(centerx - radius/2, centery - radius/2, radius, 0, Math.PI * 2, true);
@@ -129,12 +144,12 @@
     }
 
     function updatescreen() {
-        colorRect(0, 0, canvas.width, canvas.height, "black"); //gamescreen
-        colorRect(canvas.width/2, 0, 1, canvas.height, "white"); //dividing line in middle
-        colorRect(0, paddle1position, paddlethickness, paddlelength, "white"); //player paddle
-        colorRect(canvas.width - paddlethickness, paddle2position, paddlethickness, paddlelength, "white"); //computer paddle
+        colorrect(0, 0, canvas.width, canvas.height, "black"); //gamescreen
+        colorrect(canvas.width/2, 0, 1, canvas.height, "white"); //dividing line in middle
+        colorrect(0, paddle1position, paddlethickness, paddlelength, "white"); //player paddle
+        colorrect(canvas.width - paddlethickness, paddle2position, paddlethickness, paddlelength, "white"); //computer paddle
 
-        colorCircle(ballxpos, ballypos, ballradius, "white"); //ball
+        colorcircle(ballxpos, ballypos, ballradius, "white"); //ball
 
         //scores
         canvascontext.fillStyle = "white";
