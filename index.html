@@ -30,13 +30,13 @@
     var ballradius = 5;
     var ballxpos = gamescreen.width/2
     var ballypos = gamescreen.height/2;
-    var ballxvelocity = 5;
+    var ballxvelocity = 50;
     var ballyvelocity = 5;
     var bouncespeed = 0.3;
 
     var score1 = 0;
     var score2 = 0;
-    var winscore = 3;
+    var winscore = 1;
     var winmodeon = false;
 
     //continue game after mouse click
@@ -191,14 +191,14 @@
             canvascontext.fillStyle = "yellow";
 
             if(score1 >= winscore) {
-                canvascontext.fillText("Player 1 Won!", gamescreen.width/4, gamescreen.height/4);
+                canvascontext.fillText("Player 1 Won!", gamescreen.width/4 - 30, gamescreen.height/4);
             }
             else if(score2 >= winscore) {
-                canvascontext.fillText("Player 2 Won!", 3*gamescreen.width/4, gamescreen.height/4);
+                canvascontext.fillText("Player 2 Won!", 3*gamescreen.width/4 - 30, gamescreen.height/4);
             }
             
-            canvascontext.fillText("GAME OVER", gamescreen.width/2, gamescreen.height/4);
-            canvascontext.fillText("Click to Continue", gamescreen.width/2, 3*gamescreen.height/4);
+            canvascontext.fillText("GAME OVER", gamescreen.width/2 - 31, gamescreen.height/4);
+            canvascontext.fillText("Click to Continue", gamescreen.width/2 - 33, 3*gamescreen.height/4);
             return;
         }
     }
