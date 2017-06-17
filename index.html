@@ -36,6 +36,7 @@
 
     var score1 = 0;
     var score2 = 0;
+    var winscore = 10;
 
     //get mouse position from mouse movement event
     function getmousepos(event) {
@@ -75,16 +76,38 @@
     function resetscreen() {
         console.log("Screen Reset");
 
+        if(score1 >= winscore) {
+
+        }
+        else if(score2 >= winscore) {
+            
+        }
+
         ballxpos = canvas.width/2;
         ballypos = canvas.height/2;
         ballxvelocity = 5;
         ballyvelocity = 5;
     }
 
+    //move ai paddle
+    function aimovement() {
+        var paddle2center = paddle2position + paddlelength/2;
+        if(ballypos > paddle2center) {
+            paddle2position += aispeed;
+        }
+        //ballypos < paddle2center
+        else {
+            paddle2position -= aispeed;
+        }
+    }
+
     function rungame() {
         //move ball
         ballxpos += ballxvelocity;
         ballypos += ballyvelocity;
+
+        //move ai paddle
+        aimovement();
 
         //bounce ball off walls
         if(ballypos < 0 && ballyvelocity < 0) {
@@ -102,7 +125,7 @@
                 ballyvelocity = bouncespeed * dy //vertical bounce faster if ball hits edge of paddle
             }
             else {
-                score2++;
+                score2++; //change score before reset function (checks win condition)
                 resetscreen();
             }
         }
@@ -115,17 +138,9 @@
                 ballyvelocity = bouncespeed * dy //vertical bounce faster if ball hits edge of paddle
             }
             else {
-                score1++;
+                score1++; //change score before reset function (checks win condition)
                 resetscreen();
             }
-        }
-
-        //move ai paddle
-        if(ballypos > paddle2position + paddlelength/2) {
-            paddle2position += aispeed;
-        }
-        else {
-            paddle2position -= aispeed;
         }
     }
 
