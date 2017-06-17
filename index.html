@@ -97,9 +97,9 @@
         //bounce ball off Player 1 paddle or score
         if(ballxpos < 0) {
             if(ballypos > paddle1position && ballypos < (paddle1position + paddlelength)) {
-                ballxvelocity = -(bouncespeed + ballxvelocity);
-                dy = ballypos - (paddle1position + paddlelength/2);
-                ballyvelocity = bouncespeed * dy
+                ballxvelocity = -(bouncespeed + ballxvelocity); //increase ball horizontal speed after bounce
+                dy = ballypos - (paddle1position + paddlelength/2); //distance from middle of paddle to ball y position
+                ballyvelocity = bouncespeed * dy //vertical bounce faster if ball hits edge of paddle
             }
             else {
                 score2++;
@@ -110,9 +110,9 @@
         //bounce ball off Player 2 paddle or score
         if(ballxpos > canvas.width) {
             if(ballypos>paddle2position && ballypos < (paddle2position + paddlelength)) {
-                ballxvelocity = -(bouncespeed + ballxvelocity);
-                dy = ballypos - (paddle2position + paddlelength/2);
-                ballyvelocity = bouncespeed * dy
+                ballxvelocity = -(bouncespeed + ballxvelocity); //increase ball horizontal speed after bounce
+                dy = ballypos - (paddle2position + paddlelength/2); //distance from middle of paddle to ball y position
+                ballyvelocity = bouncespeed * dy //vertical bounce faster if ball hits edge of paddle
             }
             else {
                 score1++;
