@@ -1,0 +1,8 @@
+variation:
+beep boop bop
+
+short/fast:
+blip
+
+monotone:
+blup
