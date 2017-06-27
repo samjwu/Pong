@@ -36,12 +36,13 @@
 
     var score1 = 0;
     var score2 = 0;
-    var winscore = 1;
+    var winscore = 10;
     var winmodeon = false;
 
     var music;
     var winsound;
     var gameoversound;
+    var paddlesound;
 
     //function to play sounds
     function soundfile(src, music = false) {
@@ -108,10 +109,11 @@
             });
 
         //load sounds
+        music = new soundfile("music/gameboystyle.mp3", true);
+        music.play();
         winsound = new soundfile("sfx/win.wav")
         gameoversound = new soundfile("sfx/lose.wav");
         paddlesound = new soundfile("sfx/blip.wav");
-        music = new soundfile("music/ChaozFantasy.mp3", true);
     } 
 
     //called after each point scored
