@@ -36,8 +36,32 @@
 
     var score1 = 0;
     var score2 = 0;
-    var winscore = 10;
+    var winscore = 1;
     var winmodeon = false;
+
+    var music;
+    var winsound;
+    var gameoversound;
+
+    //function to play sounds
+    function soundfile(src, music = false) {
+        this.sound = document.createElement("audio");
+        this.sound.src = src;
+        this.sound.setAttribute("preload", "auto");
+        this.sound.setAttribute("controls", "none");
+        this.sound.style.display = "none";
+        document.body.appendChild(this.sound);
+        //loop if music, otherwise do not loop
+        if (music) {
+            this.sound.loop = true;
+        }
+        this.play = function(){
+            this.sound.play();
+        }
+        this.stop = function(){
+            this.sound.pause();
+        }    
+    }
 
     //continue game after mouse click
     function handlemouseclick(event) {
@@ -82,6 +106,12 @@
                 var mousepos = getmousepos(event);
                 paddle1position = mousepos.y - paddlelength/2;
             });
+
+        //load sounds
+        winsound = new soundfile("sfx/win.wav")
+        gameoversound = new soundfile("sfx/lose.wav");
+        paddlesound = new soundfile("sfx/blip.wav");
+        music = new soundfile("music/ChaozFantasy.mp3", true);
     } 
 
     //called after each point scored
@@ -135,6 +165,7 @@
         //bounce ball off Player 1 paddle or score
         if(ballxpos < 0) {
             if(ballypos > paddle1position && ballypos < (paddle1position + paddlelength)) {
+                paddlesound.play();
                 ballxvelocity = -(bouncespeed + ballxvelocity); //increase ball horizontal speed after bounce
                 dy = ballypos - (paddle1position + paddlelength/2); //distance from middle of paddle to ball y position
                 ballyvelocity = bouncespeed * dy //vertical bounce faster if ball hits edge of paddle
@@ -148,6 +179,7 @@
         //bounce ball off Player 2 paddle or score
         if(ballxpos > canvas.width) {
             if(ballypos>paddle2position && ballypos < (paddle2position + paddlelength)) {
+                paddlesound.play();
                 ballxvelocity = -(bouncespeed + ballxvelocity); //increase ball horizontal speed after bounce
                 dy = ballypos - (paddle2position + paddlelength/2); //distance from middle of paddle to ball y position
                 ballyvelocity = bouncespeed * dy //vertical bounce faster if ball hits edge of paddle
@@ -191,14 +223,16 @@
             canvascontext.fillStyle = "yellow";
 
             if(score1 >= winscore) {
+                winsound.play();
                 canvascontext.fillText("Player 1 Won!", gamescreen.width/4 - 30, gamescreen.height/4);
             }
             else if(score2 >= winscore) {
+                gameoversound.play();
                 canvascontext.fillText("Player 2 Won!", 3*gamescreen.width/4 - 30, gamescreen.height/4);
             }
             
             canvascontext.fillText("GAME OVER", gamescreen.width/2 - 31, gamescreen.height/4);
-            canvascontext.fillText("Click to Continue", gamescreen.width/2 - 33, 3*gamescreen.height/4);
+            canvascontext.fillText("Click to Play Again", gamescreen.width/2 - 33, 3*gamescreen.height/4);
             return;
         }
     }
